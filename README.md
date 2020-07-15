@@ -1,5 +1,5 @@
-# moocow.ml
-🐮 A URL shortening service that uses Express and MongoDB
+# moocow.ml 🐮 
+## A URL shortening service that uses Express and MongoDB
 
 Lol it's like, a URL shortener, that's it.
 
