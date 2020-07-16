@@ -42,8 +42,8 @@ app.post("/shorten", async (req, res) => {
         console.log(shortURLtoLookUp + " !")
     }
 
-    let shortenedURL = `https://www.moocow.ml/${short}`
-    let shortened = `moocow.ml/${short}`
+    let shortenedURL = `https://www.mcow.ml/${short}`
+    let shortened = `mcow.ml/${short}`
     res.render("shorten", { shortenedURL, shortened });
 })
 
