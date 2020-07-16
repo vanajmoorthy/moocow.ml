@@ -17,6 +17,7 @@ mongoose.connect(`mongodb+srv://admin:${pass}@short.xd39u.mongodb.net/short?retr
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: false }));
 app.use(favicon(__dirname + '/public/favicon.ico'));
+app.use(express.static(__dirname + '/public'));
 
 // Default get route for ejs template
 app.get("/", (req, res) => {

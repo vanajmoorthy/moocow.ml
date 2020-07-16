@@ -4,19 +4,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>mcow.ml 🐮</title>
+    <title>mcow.ml</title>
+    <link href="/shorten.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://use.typekit.net/jdq7cig.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.1/css/all.css"
+        integrity="sha384-xxzQGERXS00kBmZW/6qxqJPyxW3UR0BPsL4c8ILaIWXva5kFi7TxkIIaMiKtqV1Q" crossorigin="anonymous">
 </head>
 
 <body>
-    <h1>MooCow 🐮</h1>
-    <form action="/shorten" method="POST">
-        <input required type="url" placeholder="Enter your URL..." name="long" id="long">
-        <input type="text" placeholder="Enter your backlink" name="short" id="short">
-        <button type="submit">Shrink URL!</button>
-    </form>
-    <div>
-        <a href=<%= shortenedURL %>><%= shortened %></a>
-    </div>
+    <main>
+        <div class="flex">
+
+            <div class="form-and-title">
+                <h1>MooCow 🐮</h1>
+                <form action="/shorten" method="POST">
+                    <div class="long">
+                        <label for="long">ENTER URL TO SHORTEN</label>
+                        <input required type="url" placeholder="Enter long URL" name="long" id="long">
+                    </div>
+                    <div class="short">
+                        <label for="short">CUSTOMISE BACK HALF</label>
+                        <input type="text" placeholder="mcow.ml/" name="short" id="short">
+                    </div>
+                    <div class="button">
+                        <button type="submit">SHORTEN</button>
+                    </div>
+                </form>
+            </div>
+            <div class="output" id="output">
+                <h1><a id="link" href=<%= shortenedURL %>><%= shortened %></a><i id="copy" class="far fa-copy"></i></h1>
+            </div>
+            <footer>
+                <p>made by <a class="footer-link" href="https://vanajmoorthy.com">vanaj moorthy</a>.</p>
+                <p>code available on <a class="footer-link" href="https://github.com/vanajmoorthy/mcow.ml">github</a>.
+                </p>
+            </footer>
+        </div>
+    </main>
+    <script src="copy.js"></script>
 </body>
 
 </html>
