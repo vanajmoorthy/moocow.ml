@@ -54,10 +54,6 @@ app.get('/:shortUrl', async (req, res) => {
     res.redirect(shortUrl.long)
 })
 
-app.get('/.well-known/acme-challenge/ttaVQXg7KVhBqQWzEY7EVSHTQ36V-YOfkXgyNz5jcuY', (req, res) => {
-    res.send('ttaVQXg7KVhBqQWzEY7EVSHTQ36V-YOfkXgyNz5jcuY.9fo_NTlZ-eVymXFTFsVi2-QIv3kjUOA874uVvWaSZOY')
-})
-
 // Set PORT for production and local
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, console.log(`Server started on port ${PORT}`))
