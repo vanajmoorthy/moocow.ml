@@ -23,6 +23,7 @@ app.get("/", (req, res) => {
     res.render("index");
 })
 
+
 function isEmpty(str) {
     return !str.trim().length;
 }
@@ -41,7 +42,8 @@ app.post("/shorten", async (req, res) => {
         console.log(shortURLtoLookUp + " !")
     }
 
-    res.redirect("/")
+    let shortenedURL = `https://moocow.ml/${short}`
+    res.render("shorten", { shortenedURL });
 })
 
 app.get('/:shortUrl', async (req, res) => {
