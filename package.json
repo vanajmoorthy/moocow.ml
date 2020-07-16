@@ -1,5 +1,5 @@
 {
-  "name": "moocow.ml",
+  "name": "mcow.ml",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,15 +9,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vanajmoorthy/moocow.ml.git"
+    "url": "git+https://github.com/vanajmoorthy/mcow.ml.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/vanajmoorthy/moocow.ml/issues"
+    "url": "https://github.com/vanajmoorthy/mcow.ml/issues"
   },
-  "homepage": "https://github.com/vanajmoorthy/moocow.ml#readme",
+  "homepage": "https://github.com/vanajmoorthy/mcow.ml#readme",
   "dependencies": {
     "dotenv": "^8.2.0",
     "ejs": "^3.1.3",
