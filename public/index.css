@@ -93,6 +93,11 @@ form {
     text-decoration: underline;
 }
 
+.output p {
+    color: white;
+    text-align: center;
+}
+
 .heading {
     text-align: center;
 }
