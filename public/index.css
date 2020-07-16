@@ -80,8 +80,8 @@ form {
 
 
 .output {
-    opacity: 0;
-    pointer-events: none;
+    /* opacity: 0; */
+    /* pointer-events: none; */
     background-color: #4D4A66;
     border-radius: 12px;
     padding: 10px 20px;

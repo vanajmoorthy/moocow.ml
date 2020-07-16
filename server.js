@@ -21,7 +21,10 @@ app.use(express.static(__dirname + '/public'));
 
 // Default get route for ejs template
 app.get("/", (req, res) => {
-    res.render("index");
+    let hasUrlBeenShortened = false;
+    let shortenedURL = "";
+    let shortened = "";
+    res.render("index", { hasUrlBeenShortened, shortenedURL, shortened });
 })
 
 
@@ -43,9 +46,11 @@ app.post("/shorten", async (req, res) => {
         console.log(shortURLtoLookUp + " !")
     }
 
+    let hasUrlBeenShortened = true;
     let shortenedURL = `https://www.mcow.ml/${short}`
     let shortened = `mcow.ml/${short}`
-    res.render("shorten", { shortenedURL, shortened });
+
+    res.render("index", { hasUrlBeenShortened, shortenedURL, shortened });
 })
 
 app.get('/:shortUrl', async (req, res) => {

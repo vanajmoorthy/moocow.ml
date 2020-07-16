@@ -33,9 +33,14 @@
                     </div>
                 </form>
             </div>
-            <div class="output">
-                <h1><a href="https://vanajmoorthy.com">vanajmoorthy.com</a><i class="far fa-copy"></i></h1>
+
+            <% if (hasUrlBeenShortened) {%>
+            <div class="output" id="output">
+                <h1><a id="link" href=<%= shortenedURL %>><%= shortened %></a><i id="copy" class="far fa-copy"
+                        data-clipboard-target="#link"></i></h1>
             </div>
+            <% } %>
+
             <footer>
                 <p>made by <a class="footer-link" href="https://vanajmoorthy.com" target="_blank">vanaj moorthy</a>.</p>
                 <p>code available on <a class="footer-link" href="https://github.com/vanajmoorthy/mcow.ml"
@@ -44,6 +49,8 @@
             </footer>
         </div>
     </main>
-</body>
+    <script src="clipboard.min.js"></script>
+
+    <script src="copy.js"></script>
 
 </html>
