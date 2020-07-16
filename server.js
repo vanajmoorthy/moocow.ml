@@ -5,9 +5,9 @@ const shortModel = require("./models/short")
 const md5 = require("md5")
 require("dotenv").config()
 
-const uri = process.env.DB_URI
+const pass = process.env.PASS
 
-mongoose.connect(uri, {
+mongoose.connect(`mongodb+srv://admin:${pass}@short.xd39u.mongodb.net/short?retryWrites=true&w=majority`, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).catch(error => console.error(error));
