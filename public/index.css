@@ -138,6 +138,12 @@ button {
     border-radius: 12px;
 }
 
+button:hover {
+    background-color: #6090a1;
+    transition: 0.3s ease all;
+    cursor: pointer;
+}
+
 footer {
     border-top: 2px solid #82BBCF;
     padding-top: 10px;

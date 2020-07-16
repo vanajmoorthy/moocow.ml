@@ -110,6 +110,12 @@ button {
     border-radius: 12px;
 }
 
+button:hover {
+    background-color: #6090a1;
+    transition: 0.3s ease all;
+    cursor: pointer;
+}
+
 #copy:hover {
     cursor: pointer;
     color: #82BBCF;
@@ -118,6 +124,27 @@ button {
 
 textarea {
     display: none
+}
+
+.heading {
+    text-align: center;
+}
+
+.heading .cow {
+    margin-left: 10px;
+}
+
+.heading h1 {
+    vertical-align: bottom;
+}
+
+.heading h1, .heading .cow {
+    display: inline;
+}
+
+.cow {
+    /* padding-top: 10px; */
+    vertical-align: baseline;
 }
 
 .output p {
