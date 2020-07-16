@@ -9,9 +9,9 @@ function copy() {
 
     let temp = document.createElement("textarea");
     document.body.appendChild(temp);
-    console.log(link)
     temp.value = link
     temp.select();
+
     document.execCommand("copy");
 
     if (!document.getElementById("p")) {
