@@ -1,15 +1,21 @@
+html {
+  height: -webkit-fill-available;
+}
+
 body {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
     background-color: #29263E;
-	font-family: canada-type-gibson, sans-serif;
-
+    font-family: canada-type-gibson, sans-serif;
+    min-height: -webkit-fill-available;
 }
+
 main {
     display: flex;
     justify-content: center;
     align-items: center;
+    min-height: -webkit-fill-available;
     height: calc(100vh - 4rem);
     padding: 2rem 2rem;
 }
