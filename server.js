@@ -2,7 +2,8 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose")
 const shortModel = require("./models/short")
-const md5 = require("md5")
+const crypto = require("crypto")
+const favicon = require('serve-favicon');
 require("dotenv").config()
 
 const pass = process.env.PASS
@@ -15,6 +16,7 @@ mongoose.connect(`mongodb+srv://admin:${pass}@short.xd39u.mongodb.net/short?retr
 // Make sure view engine uses ejs
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: false }));
+app.use(favicon(__dirname + '/public/favicon.ico'));
 
 // Default get route for ejs template
 app.get("/", (req, res) => {
@@ -28,7 +30,7 @@ function isEmpty(str) {
 // Post to actually shorten url
 app.post("/shorten", async (req, res) => {
     const long = req.body.long;
-    const short = (req.body.short === "" || req.body.short === null || isEmpty(req.body.short)) ? md5(long).substring(0, 7) : req.body.short;
+    const short = (req.body.short === "" || req.body.short === null || isEmpty(req.body.short)) ? crypto.createHash('sha256').update(long).digest('hex').substring(0, 7) : req.body.short;
 
     let shortURLtoLookUp = await shortModel.findOne({ long, short });
 
@@ -51,6 +53,7 @@ app.get('/:shortUrl', async (req, res) => {
 
     if (shortUrl == null) return res.sendStatus(404)
 
+    console.log(`Redirecting to ${shortUrl.long}`)
     res.redirect(shortUrl.long)
 })
 
