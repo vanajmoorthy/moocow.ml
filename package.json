@@ -1,7 +1,7 @@
 {
   "name": "mcow.ml",
   "version": "1.0.0",
-  "description": "URL shortener",
+  "description": "URL shorte  ner",
   "main": "index.js",
   "scripts": {
     "start": "node server.js",

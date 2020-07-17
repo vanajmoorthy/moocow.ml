@@ -62,6 +62,8 @@ function isEmpty(str) {
 
 // Post to actually shorten url
 app.post("/shorten", createAccountLimiter, async (req, res) => {
+	console.log(req.headers);
+
 	let doErrorsExist = false;
 	let errors = "";
 
@@ -113,7 +115,7 @@ app.post("/shorten", createAccountLimiter, async (req, res) => {
 });
 
 app.get("/:shortUrl", async (req, res) => {
-	console.log(req.headers);
+	// console.log(req.headers);
 
 	try {
 		var shortUrl = await shortModel.findOne({ short: req.params.shortUrl });
