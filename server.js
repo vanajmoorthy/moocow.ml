@@ -27,9 +27,17 @@ app.use(express.static(__dirname + "/public"));
 // Default get route for ejs template
 app.get("/", (req, res) => {
 	let hasUrlBeenShortened = false;
+	let doErrorsExist = false;
+	let errors = "";
 	let shortenedURL = "";
 	let shortened = "";
-	res.render("index", { hasUrlBeenShortened, shortenedURL, shortened });
+	res.render("index", {
+		doErrorsExist,
+		errors,
+		hasUrlBeenShortened,
+		shortenedURL,
+		shortened,
+	});
 });
 
 function isEmpty(str) {
@@ -38,6 +46,9 @@ function isEmpty(str) {
 
 // Post to actually shorten url
 app.post("/shorten", async (req, res) => {
+	let doErrorsExist = false;
+	let errors = "";
+
 	const long = req.body.long;
 	const short =
 		req.body.short === "" ||
@@ -49,21 +60,38 @@ app.post("/shorten", async (req, res) => {
 					.digest("hex")
 					.substring(0, 7)
 			: req.body.short;
+	const type =
+		req.body.short === "" ||
+		req.body.short === null ||
+		isEmpty(req.body.short)
+			? "generated"
+			: "manual";
 
 	let shortURLtoLookUp = await shortModel.findOne({ long, short });
+	let onlyShortToLookUp = await shortModel.findOne({ short, type });
 
-	if (!shortURLtoLookUp) {
-		await shortModel.create({ long, short });
-		console.log(long, short);
+	if (onlyShortToLookUp) {
+		doErrorsExist = true;
+		errors = "Sorry, that short URL already exists!";
+		console.log("short url exists");
+	} else if (shortURLtoLookUp) {
+		console.log(shortURLtoLookUp);
 	} else {
-		console.log(shortURLtoLookUp + " !");
+		await shortModel.create({ long, short, type });
+		console.log(long, short, type);
 	}
 
 	let hasUrlBeenShortened = true;
 	let shortenedURL = `https://www.mcow.ml/${short}`;
 	let shortened = `mcow.ml/${short}`;
 
-	res.render("index", { hasUrlBeenShortened, shortenedURL, shortened });
+	res.render("index", {
+		doErrorsExist,
+		errors,
+		hasUrlBeenShortened,
+		shortenedURL,
+		shortened,
+	});
 });
 
 app.get("/:shortUrl", async (req, res) => {
