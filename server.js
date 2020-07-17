@@ -110,6 +110,7 @@ app.post("/shorten", createAccountLimiter, async (req, res) => {
 
 app.get("/:shortUrl", async (req, res) => {
 	console.log(req.headers);
+
 	try {
 		var shortUrl = await shortModel.findOne({ short: req.params.shortUrl });
 	} catch (err) {
