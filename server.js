@@ -6,11 +6,11 @@ const crypto = require("crypto");
 const favicon = require("serve-favicon");
 require("dotenv").config();
 
-const pass = process.env.PASS;
+const DB_URI = process.env.DB_URI;
 
 mongoose
 	.connect(
-		`mongodb+srv://admin:${pass}@short.xd39u.mongodb.net/short?retryWrites=true&w=majority`,
+		DB_URI,
 		{
 			useNewUrlParser: true,
 			useUnifiedTopology: true,
