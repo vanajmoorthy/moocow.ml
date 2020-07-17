@@ -6,6 +6,7 @@ const crypto = require("crypto");
 const favicon = require("serve-favicon");
 require("dotenv").config();
 const rateLimit = require("express-rate-limit");
+const ipfilter = require("express-ipfilter").IpFilter;
 
 const DB_URI = process.env.DB_URI;
 
@@ -15,6 +16,9 @@ mongoose
 		useUnifiedTopology: true,
 	})
 	.catch((error) => console.error(error));
+
+const ips = ["52.66.227.51"]; // Ban these ips
+app.use(ipfilter(ips));
 
 const apiLimiter = rateLimit({
 	windowMs: 60 * 1000,
