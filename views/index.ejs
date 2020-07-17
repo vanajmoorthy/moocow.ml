@@ -23,13 +23,13 @@
                     <div class="long">
                         <label for="long">ENTER URL TO SHORTEN</label>
                         <input required type="url" placeholder="Enter long URL" name="long" id="long">
-                        <% if (doErrorsExist) {%>
-                        <p class="error"><%= errors %></p>
-                        <%}%>
                     </div>
                     <div class="short">
                         <label for="short">CUSTOMISE BACK HALF</label>
                         <input type="text" placeholder="mcow.ml/" name="short" id="short">
+                        <% if (doErrorsExist) {%>
+                        <p class="error"><%= errors %></p>
+                        <%}%>
                     </div>
                     <div class="button">
                         <button type="submit">SHORTEN</button>
