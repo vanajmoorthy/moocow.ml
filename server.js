@@ -5,6 +5,7 @@ const shortModel = require("./models/short");
 const crypto = require("crypto");
 const favicon = require("serve-favicon");
 require("dotenv").config();
+const rateLimit = require("express-rate-limit");
 
 const DB_URI = process.env.DB_URI;
 
@@ -14,6 +15,20 @@ mongoose
 		useUnifiedTopology: true,
 	})
 	.catch((error) => console.error(error));
+
+const apiLimiter = rateLimit({
+	windowMs: 60 * 1000,
+	max: 10,
+	message: "Too many requests from this IP, please try again after a minute",
+});
+
+app.use("/shorten", apiLimiter);
+
+const createAccountLimiter = rateLimit({
+	windowMs: 60 * 1000,
+	max: 10,
+	message: "Too many requests from this IP, please try again after a minute",
+});
 
 // Make sure view engine uses ejs
 app.set("view engine", "ejs");
@@ -42,7 +57,7 @@ function isEmpty(str) {
 }
 
 // Post to actually shorten url
-app.post("/shorten", async (req, res) => {
+app.post("/shorten", createAccountLimiter, async (req, res) => {
 	let doErrorsExist = false;
 	let errors = "";
 
