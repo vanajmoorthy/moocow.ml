@@ -9,4 +9,4 @@ Lol it's like, a URL shortener, that's it.
 2. Run either `yarn` or `npm i` to install dependencies.
 3. Rename [`.env.example`](https://github.com/vanajmoorthy/mcow.ml/blob/master/.env.example) to `.env` and replace the marked fields with the proper credentials.
 
-## PRs are more than welcome 👋
+### PRs are more than welcome 👋
