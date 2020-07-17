@@ -30,7 +30,7 @@ app.use(ipfilter(ips));
 
 const apiLimiter = rateLimit({
 	windowMs: 60 * 1000,
-	max: 3,
+	max: 1,
 	message: "Too many requests from this IP, please try again after a minute",
 });
 
@@ -38,7 +38,7 @@ app.use("/shorten", apiLimiter);
 
 const createAccountLimiter = rateLimit({
 	windowMs: 60 * 1000,
-	max: 3,
+	max: 1,
 	message: "Too many requests from this IP, please try again after a minute",
 });
 
