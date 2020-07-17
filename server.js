@@ -107,7 +107,7 @@ app.get("/:shortUrl", async (req, res) => {
 
 	console.log(shortUrl.clicks);
 	console.log(`Redirecting to ${shortUrl.long}`);
-	res.redirect(shortUrl.long);
+	res.status(301).redirect(shortUrl.long);
 });
 
 // Set PORT for production and local
