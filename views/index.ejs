@@ -37,7 +37,7 @@
                 </form>
             </div>
 
-            <% if (hasUrlBeenShortened) {%>
+            <% if (hasUrlBeenShortened && !doErrorsExist) {%>
                         <div class="output" id="output">
                             <h1><a id="link" href=<%= shortenedURL %>><%= shortened %></a><i id="copy"
                                     class="far fa-copy" data-clipboard-target="#link"></i></h1>
