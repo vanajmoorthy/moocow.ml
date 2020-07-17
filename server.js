@@ -104,8 +104,8 @@ app.post("/shorten", createAccountLimiter, async (req, res) => {
 		console.log("short url exists");
 	} else if (shortURLtoLookUp) {
 		console.log(shortURLtoLookUp);
-	} else if (){
-
+	} else if (false) {
+		console.log("nothing");
 	} else {
 		await shortModel.create({ long, short, type });
 		console.log(long, short, type);
