@@ -5,7 +5,6 @@ const shortModel = require("./models/short");
 const crypto = require("crypto");
 const favicon = require("serve-favicon");
 require("dotenv").config();
-const rateLimit = require("express-rate-limit");
 
 const DB_URI = process.env.DB_URI;
 
@@ -16,19 +15,6 @@ mongoose
 	})
 	.catch((error) => console.error(error));
 
-const apiLimiter = rateLimit({
-	windowMs: 60 * 1000,
-	max: 10,
-	message: "Too many requests from this IP, please try again after a minute",
-});
-
-app.use("/shorten", apiLimiter);
-
-const createAccountLimiter = rateLimit({
-	windowMs: 60 * 1000,
-	max: 10,
-	message: "Too many requests from this IP, please try again after a minute",
-});
 
 // Make sure view engine uses ejs
 app.set("view engine", "ejs");
@@ -57,11 +43,25 @@ function isEmpty(str) {
 }
 
 // Post to actually shorten url
-app.post("/shorten", createAccountLimiter, async (req, res) => {
+app.post("/shorten", async (req, res) => {
 	let doErrorsExist = false;
 	let errors = "";
-
-	const long = req.body.long;
+	
+	if(req.body['g-recaptcha-response'] === undefined || req.body['g-recaptcha-response'] === '' || req.body['g-recaptcha-response'] === null) {
+        	res.send("You either didn't verify the captcha or something went wrong.")
+      	}
+	// Environment variable with your captcha verification key.
+	const secretKey = process.env.CAPTCHA_KEY;
+	
+	// req.connection.remoteAddress will provide the user's IP.
+	const verificationUrl = "https://www.google.com/recaptcha/api/siteverify?secret=" + secretKey + "&response=" + req.body['g-recaptcha-response'] + "&remoteip=" + req.connection.remoteAddress;
+	
+	
+	fetch(verificationUrl).then(res => res.json()).then(res => {
+		if(res.body.success !== undefined && !res.body.success) {
+            		return res.send("You either didn't verify the captcha or something went wrong.")
+        	} else{
+			const long = req.body.long;
 	const short =
 		req.body.short === "" ||
 		req.body.short === null ||
@@ -99,13 +99,17 @@ app.post("/shorten", createAccountLimiter, async (req, res) => {
 	let shortenedURL = `https://www.mcow.ml/${short}`;
 	let shortened = `mcow.ml/${short}`;
 
-	res.render("index", {
+	return res.render("index", {
 		doErrorsExist,
 		errors,
 		hasUrlBeenShortened,
 		shortenedURL,
 		shortened,
 	});
+			
+		}
+	})
+	
 });
 
 app.get("/:shortUrl", async (req, res) => {
