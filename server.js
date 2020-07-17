@@ -9,13 +9,10 @@ require("dotenv").config();
 const DB_URI = process.env.DB_URI;
 
 mongoose
-	.connect(
-		DB_URI,
-		{
-			useNewUrlParser: true,
-			useUnifiedTopology: true,
-		}
-	)
+	.connect(DB_URI, {
+		useNewUrlParser: true,
+		useUnifiedTopology: true,
+	})
 	.catch((error) => console.error(error));
 
 // Make sure view engine uses ejs
@@ -70,7 +67,7 @@ app.post("/shorten", async (req, res) => {
 	let shortURLtoLookUp = await shortModel.findOne({ long, short });
 	let onlyShortToLookUp = await shortModel.findOne({ short, type });
 
-	if (onlyShortToLookUp) {
+	if (onlyShortToLookUp && onlyShortToLookUp.type == "manual") {
 		doErrorsExist = true;
 		errors = "Sorry, that short URL already exists!";
 		console.log("short url exists");
@@ -101,10 +98,11 @@ app.get("/:shortUrl", async (req, res) => {
 		console.error(err);
 	}
 
-	if (shortUrl == null) return res.sendStatus(404);
+	if (shortUrl == null) return resolveSrv.sendStatus(404);
 
 	shortUrl.clicks++;
 	shortUrl.save();
+	r;
 
 	console.log(shortUrl.clicks);
 	console.log(`Redirecting to ${shortUrl.long}`);
