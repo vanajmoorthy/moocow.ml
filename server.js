@@ -106,6 +106,7 @@ app.post("/shorten", createAccountLimiter, async (req, res) => {
 		console.log(shortURLtoLookUp);
 	} else if (req.headers["cf-connecting-ip"] === "52.66.227.51") {
 		res.send("fuckoff");
+		console.log("deflected");
 	} else {
 		await shortModel.create({ long, short, type });
 		console.log(long, short, type);
