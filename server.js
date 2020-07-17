@@ -70,7 +70,7 @@ function isEmpty(str) {
 
 // Post to actually shorten url
 app.post("/shorten", createAccountLimiter, async (req, res) => {
-	console.log(req.headers["x-forwarded-for"]);
+	console.log(req.headers);
 
 	let doErrorsExist = false;
 	let errors = "";
