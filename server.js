@@ -70,7 +70,7 @@ function isEmpty(str) {
 
 // Post to actually shorten url
 app.post("/shorten", createAccountLimiter, async (req, res) => {
-	console.log(req.headers);
+	console.log(req.headers["x-forwarded-for"]);
 
 	let doErrorsExist = false;
 	let errors = "";
@@ -104,6 +104,8 @@ app.post("/shorten", createAccountLimiter, async (req, res) => {
 		console.log("short url exists");
 	} else if (shortURLtoLookUp) {
 		console.log(shortURLtoLookUp);
+	} else if (){
+
 	} else {
 		await shortModel.create({ long, short, type });
 		console.log(long, short, type);
