@@ -6,8 +6,6 @@ const crypto = require("crypto");
 const favicon = require("serve-favicon");
 require("dotenv").config();
 const rateLimit = require("express-rate-limit");
-const { exit } = require("process");
-const ipfilter = require("express-ipfilter").IpFilter;
 
 const DB_URI = process.env.DB_URI;
 
@@ -17,17 +15,6 @@ mongoose
 		useUnifiedTopology: true,
 	})
 	.catch((error) => console.error(error));
-
-const ips = [
-	"52.66.227.51",
-	"10.33.187.161",
-	"10.29.116.130",
-	"10.43.252.33",
-	"10.51.235.186",
-	"10.29.126.3",
-	"10.30.127.22",
-]; // Ban these ips
-app.use(ipfilter(ips));
 
 const apiLimiter = rateLimit({
 	windowMs: 60 * 1000,
@@ -51,6 +38,11 @@ app.use(express.static(__dirname + "/public"));
 
 // Default get route for ejs template
 app.get("/", (req, res) => {
+	if (req.headers["cf-connecting-ip"] === "52.66.227.51") {
+		res.send("fuckoff");
+		console.log("deflected");
+		return;
+	}
 	let hasUrlBeenShortened = false;
 	let doErrorsExist = false;
 	let errors = "";
@@ -78,6 +70,7 @@ app.post("/shorten", createAccountLimiter, async (req, res) => {
 		console.log("deflected");
 		return;
 	}
+
 	let doErrorsExist = false;
 	let errors = "";
 
@@ -129,7 +122,11 @@ app.post("/shorten", createAccountLimiter, async (req, res) => {
 });
 
 app.get("/:shortUrl", async (req, res) => {
-	// console.log(req.headers);
+	if (req.headers["cf-connecting-ip"] === "52.66.227.51") {
+		res.send("fuckoff");
+		console.log("deflected");
+		return;
+	}
 
 	try {
 		var shortUrl = await shortModel.findOne({ short: req.params.shortUrl });
