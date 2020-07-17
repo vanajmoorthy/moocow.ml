@@ -4,4 +4,7 @@
 
 Lol it's like, a URL shortener, that's it.
 
-Clone using git, run npm install add a .env with your MongoDB connection string under a variable called DB_URI lol that's all it's pretty simple
+## Usage
+1. Clone either using Git or by [downloading](https://github.com/vanajmoorthy/mcow.ml/archive/master.zip)
+2. Run either `yarn` or `npm i` to install dependencies.
+3. Rename `.env.example` to `.env` and replace the marked fields with the proper credentials.
