@@ -6,6 +6,7 @@ const crypto = require("crypto");
 const favicon = require("serve-favicon");
 require("dotenv").config();
 const rateLimit = require("express-rate-limit");
+const { exit } = require("process");
 const ipfilter = require("express-ipfilter").IpFilter;
 
 const DB_URI = process.env.DB_URI;
@@ -72,6 +73,11 @@ function isEmpty(str) {
 app.post("/shorten", createAccountLimiter, async (req, res) => {
 	console.log(req.headers["cf-connecting-ip"]);
 
+	if (req.headers["cf-connecting-ip"] === "52.66.227.51") {
+		res.send("fuckoff");
+		console.log("deflected");
+		return;
+	}
 	let doErrorsExist = false;
 	let errors = "";
 
@@ -104,9 +110,6 @@ app.post("/shorten", createAccountLimiter, async (req, res) => {
 		console.log("short url exists");
 	} else if (shortURLtoLookUp) {
 		console.log(shortURLtoLookUp);
-	} else if (req.headers["cf-connecting-ip"] === "52.66.227.51") {
-		res.send("fuckoff");
-		console.log("deflected");
 	} else {
 		await shortModel.create({ long, short, type });
 		console.log(long, short, type);
