@@ -103,6 +103,10 @@ app.get("/:shortUrl", async (req, res) => {
 
 	if (shortUrl == null) return res.sendStatus(404);
 
+	shortUrl.clicks++;
+	shortUrl.save();
+
+	console.log(shortUrl.clicks);
 	console.log(`Redirecting to ${shortUrl.long}`);
 	res.redirect(shortUrl.long);
 });

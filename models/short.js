@@ -11,7 +11,12 @@ const shortSchema = new mongoose.Schema({
 	},
 	type: {
 		type: String,
-		require: true,
+		required: true,
+	},
+	clicks: {
+		type: Number,
+		required: true,
+		default: 0,
 	},
 });
 
