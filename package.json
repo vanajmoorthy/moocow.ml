@@ -1,7 +1,7 @@
 {
   "name": "mcow.ml",
   "version": "1.0.0",
-  "description": "",
+  "description": "URL shortener",
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
@@ -12,7 +12,7 @@
     "url": "git+https://github.com/vanajmoorthy/mcow.ml.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Vanaj Moorthy",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/vanajmoorthy/mcow.ml/issues"

@@ -76,7 +76,7 @@ app.post("/shorten", createAccountLimiter, async (req, res) => {
 	const type =
 		req.body.short === "" ||
 		req.body.short === null ||
-		!req.body.short.match(/[A-Za-z0-9]/) ||
+		!req.body.short.match(/^[a-zA-Z]+?[^\\\/:*?"<>|\n\r]+$/) ||
 		isEmpty(req.body.short)
 			? "generated"
 			: "manual";
