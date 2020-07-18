@@ -28,7 +28,6 @@ function fuckOff(req, res) {
 	let bannedAddresses = ["3.7.74.1"];
 
 	if (bannedAddresses.includes(req.headers["cf-connecting-ip"])) {
-		res.send("fuckoff");
 		console.log("deflected");
 		return;
 	}
