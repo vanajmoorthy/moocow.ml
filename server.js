@@ -38,7 +38,7 @@ app.use(express.static(__dirname + "/public"));
 
 // Default get route for ejs template
 app.get("/", (req, res) => {
-	if (req.headers["cf-connecting-ip"] === "52.66.227.51") {
+	if (req.headers["cf-connecting-ip"] === "52.66.219.164") {
 		res.send("fuckoff");
 		console.log("deflected");
 		return;
@@ -65,7 +65,7 @@ function isEmpty(str) {
 app.post("/shorten", createAccountLimiter, async (req, res) => {
 	console.log(req.headers["cf-connecting-ip"]);
 
-	if (req.headers["cf-connecting-ip"] === "52.66.227.51") {
+	if (req.headers["cf-connecting-ip"] === "52.66.219.164") {
 		res.send("fuckoff");
 		console.log("deflected");
 		return;
@@ -122,7 +122,7 @@ app.post("/shorten", createAccountLimiter, async (req, res) => {
 });
 
 app.get("/:shortUrl", async (req, res) => {
-	if (req.headers["cf-connecting-ip"] === "52.66.227.51") {
+	if (req.headers["cf-connecting-ip"] === "52.66.219.164") {
 		res.send("fuckoff");
 		console.log("deflected");
 		return;
