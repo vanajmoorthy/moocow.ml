@@ -24,7 +24,7 @@ const apiLimiter = rateLimit({
 
 app.use("/shorten", apiLimiter);
 
-function fuckOff() {
+function fuckOff(req) {
 	let bannedAddresses = ["3.7.74.1"];
 
 	if (bannedAddresses.includes(req.headers["cf-connecting-ip"])) {
@@ -32,7 +32,7 @@ function fuckOff() {
 		console.log("deflected");
 		return;
 	}
-});
+}
 
 const createAccountLimiter = rateLimit({
 	windowMs: 60 * 1000,
@@ -48,7 +48,7 @@ app.use(express.static(__dirname + "/public"));
 
 // Default get route for ejs template
 app.get("/", (req, res) => {
-	fuckOff()
+	fuckOff(req);
 	let hasUrlBeenShortened = false;
 	let doErrorsExist = false;
 	let errors = "";
@@ -69,7 +69,7 @@ function isEmpty(str) {
 
 // Post to actually shorten url
 app.post("/shorten", createAccountLimiter, async (req, res) => {
-	fuckOff();
+	fuckOff(req);
 	console.log(req.headers["cf-connecting-ip"]);
 
 	let doErrorsExist = false;
@@ -123,7 +123,7 @@ app.post("/shorten", createAccountLimiter, async (req, res) => {
 });
 
 app.get("/:shortUrl", async (req, res) => {
-	fuckOff();
+	fuckOff(req);
 	try {
 		var shortUrl = await shortModel.findOne({ short: req.params.shortUrl });
 	} catch (err) {
