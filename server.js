@@ -96,12 +96,7 @@ app.post("/shorten", createAccountLimiter, async (req, res) => {
 		isEmpty(req.body.short)
 			? "generated"
 			: "manual";
-	const secret =
-		req.body.secret == "" ||
-		req.body.secret === null ||
-		isEmpty(req.body.secret)
-			? "gotlazy"
-			: req.body.secret;
+
 	let shortURLtoLookUp = await shortModel.findOne({ long, short });
 	let onlyShortToLookUp = await shortModel.findOne({ short, type });
 
@@ -112,8 +107,8 @@ app.post("/shorten", createAccountLimiter, async (req, res) => {
 	} else if (shortURLtoLookUp) {
 		console.log(shortURLtoLookUp);
 	} else {
-		await shortModel.create({ long, short, type, secret });
-		console.log(long, short, type, secret);
+		await shortModel.create({ long, short, type });
+		console.log(long, short, type);
 	}
 
 	let hasUrlBeenShortened = true;

@@ -43,9 +43,11 @@
 
                 <% if (hasUrlBeenShortened && !doErrorsExist) {%>
                 <div class="output" id="output">
-                    <h1><a id="link" href=<%= shortenedURL %>><%= shortenedURL %></a><i id="copy"
+                    <h1><a href=<%= shortenedURL %>><%= shortened %></a><i id="copy"
                                                                                         class="far fa-copy" data-clipboard-target="#link"></i></h1>
                 </div>
+
+                <p id="link"><%= shortenedURL %></p>
                 <% } %>
 
                 <footer>

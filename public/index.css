@@ -200,3 +200,10 @@ footer p {
 		font-size: 1.3rem;
 	}
 }
+
+#link {
+	opacity: none;
+	font-size: 1px;
+	margin: 0,
+	padding: 0;
+}
