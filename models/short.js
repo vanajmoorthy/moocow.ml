@@ -18,10 +18,6 @@ const shortSchema = new mongoose.Schema({
 		required: true,
 		default: 0,
 	},
-	secret: {
-		type: String,
-		required: true,
-	},
 });
 
 module.exports = mongoose.model("short", shortSchema);

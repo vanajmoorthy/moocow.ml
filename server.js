@@ -67,6 +67,7 @@ function isEmpty(str) {
 // TO-DO: Remove manual IP deflection and secret param.
 // Remove secret from post route, short.js and view!!!! (after captcha)
 app.post("/shorten", createAccountLimiter, async (req, res) => {
+<<<<<<< HEAD
     console.log(req.headers["cf-connecting-ip"]);
 
     if (req.headers["cf-connecting-ip"] === "3.7.74.1") {
@@ -141,6 +142,64 @@ app.post("/shorten", createAccountLimiter, async (req, res) => {
         shortenedURL,
         shortened,
     });
+=======
+	console.log(req.headers["cf-connecting-ip"]);
+
+	if (req.headers["cf-connecting-ip"] === "3.7.74.1") {
+		res.send("fuckoff");
+		console.log("deflected");
+		return;
+	}
+
+	let doErrorsExist = false;
+	let errors = "";
+
+	const long = req.body.long;
+	const short =
+		req.body.short === "" ||
+		req.body.short === null ||
+		!req.body.short.match(/^[a-zA-Z]+?[^\\\/:*?"<>|\n\r]+$/) ||
+		isEmpty(req.body.short)
+			? crypto
+					.createHash("sha256")
+					.update(long)
+					.digest("hex")
+					.substring(0, 7)
+			: req.body.short;
+	const type =
+		req.body.short === "" ||
+		req.body.short === null ||
+		!req.body.short.match(/^[a-zA-Z]+?[^\\\/:*?"<>|\n\r]+$/) ||
+		isEmpty(req.body.short)
+			? "generated"
+			: "manual";
+
+	let shortURLtoLookUp = await shortModel.findOne({ long, short });
+	let onlyShortToLookUp = await shortModel.findOne({ short, type });
+
+	if (onlyShortToLookUp && onlyShortToLookUp.type == "manual") {
+		doErrorsExist = true;
+		errors = "Sorry, that short URL already exists!";
+		console.log("short url exists");
+	} else if (shortURLtoLookUp) {
+		console.log(shortURLtoLookUp);
+	} else {
+		await shortModel.create({ long, short, type });
+		console.log(long, short, type);
+	}
+
+	let hasUrlBeenShortened = true;
+	let shortenedURL = `https://www.mcow.ml/${short}`;
+	let shortened = `mcow.ml/${short}`;
+
+	res.render("index", {
+		doErrorsExist,
+		errors,
+		hasUrlBeenShortened,
+		shortenedURL,
+		shortened,
+	});
+>>>>>>> 7b8e5de94e0471e217c5250b76f226b80947b354
 });
 
             app.get("/:shortUrl", async (req, res) => {
