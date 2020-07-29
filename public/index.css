@@ -210,10 +210,9 @@ footer p {
 }
 
 .captcha-container {
-	padding: 40px;
 	display: flex;
 }
 
 .g-recaptcha {
-	margin: auto;
+	margin: 40px auto;
 }
