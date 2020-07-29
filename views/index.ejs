@@ -1,63 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>mcow.ml</title>
-    <link href="/index.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="https://use.typekit.net/jdq7cig.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.1/css/all.css" integrity="sha384-xxzQGERXS00kBmZW/6qxqJPyxW3UR0BPsL4c8ILaIWXva5kFi7TxkIIaMiKtqV1Q" crossorigin="anonymous">
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>mcow.ml</title>
+        <link href="/index.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://use.typekit.net/jdq7cig.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.1/css/all.css" integrity="sha384-xxzQGERXS00kBmZW/6qxqJPyxW3UR0BPsL4c8ILaIWXva5kFi7TxkIIaMiKtqV1Q" crossorigin="anonymous">
 
-<body>
-    <main>
-        <div class="flex">
+        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    </head>
 
-            <div class="form-and-title">
-                <div class="heading">
-                    <h1>MooCow</h1><img class="cow" src="cow.png" alt="cow image">
-                </div>
-                <form action="/shorten" method="POST">
-                    <div class="long">
-                        <label for="long">ENTER URL TO SHORTEN</label>
-                        <input required type="url" placeholder="Enter long URL" name="long" id="long">
-                    </div>
-                    <div class="short">
-                        <label for="short">CUSTOMISE BACK HALF</label>
-                        <input type="text" placeholder="mcow.ml/" name="short" id="short">
-                        <% if (doErrorsExist) {%>
-                        <p class="error"><%= errors %></p>
-                        <%}%>
-                    </div>
-                    <div class="short">
-                        <label for="short">ENTER THE WORD YAY</label>
-                        <input type="text" name="secret" id="secret" placeholder="yay">
-                    </div>
-                    <div class="button">
-                        <button type="submit">SHORTEN</button>
-                    </div>
-                </form>
-            </div>
+    <body>
+        <main>
+            <div class="flex">
 
-            <% if (hasUrlBeenShortened && !doErrorsExist) {%>
-                        <div class="output" id="output">
-                            <h1><a id="link" href=<%= shortenedURL %>><%= shortenedURL %></a><i id="copy"
-                                    class="far fa-copy" data-clipboard-target="#link"></i></h1>
+                <div class="form-and-title">
+                    <div class="heading">
+                        <h1>MooCow</h1><img class="cow" src="cow.png" alt="cow image">
+                    </div>
+                    <form action="/shorten" method="POST">
+                        <div class="long">
+                            <label for="long">ENTER URL TO SHORTEN</label>
+                            <input required type="url" placeholder="Enter long URL" name="long" id="long">
                         </div>
-                        <% } %>
+                        <div class="short">
+                            <label for="short">CUSTOMISE BACK HALF</label>
+                            <input type="text" placeholder="mcow.ml/" name="short" id="short">
+                            <% if (doErrorsExist) {%>
+                            <p class="error"><%= errors %></p>
+                            <%}%>
+                        </div>
 
-                        <footer>
-                            <p>made by <a class="footer-link" href="https://vanajmoorthy.com" target="_blank">vanaj
-                                    moorthy</a>.</p>
-                            <p>code available on <a class="footer-link" href="https://github.com/vanajmoorthy/mcow.ml"
-                                    target="_blank">github</a>.
-                            </p>
-                        </footer>
-                    </div>
-    </main>
-    <script src="clipboard.min.js"></script>
+                        <div class="g-recaptcha" data-sitekey="6LfTw7cZAAAAAJc8y0lPCEdIbM72Pf7CWpt3ziPf"></div>
 
-    <script src="copy.js"></script>
+                        <div class="button">
+                            <button type="submit">SHORTEN</button>
+                        </div>
+                    </form>
+                </div>
+
+                <% if (hasUrlBeenShortened && !doErrorsExist) {%>
+                <div class="output" id="output">
+                    <h1><a id="link" href=<%= shortenedURL %>><%= shortenedURL %></a><i id="copy"
+                                                                                        class="far fa-copy" data-clipboard-target="#link"></i></h1>
+                </div>
+                <% } %>
+
+                <footer>
+                    <p>made by <a class="footer-link" href="https://vanajmoorthy.com" target="_blank">vanaj
+                        moorthy</a>.</p>
+                    <p>code available on <a class="footer-link" href="https://github.com/vanajmoorthy/mcow.ml"
+                                                                target="_blank">github</a>.
+                    </p>
+                </footer>
+            </div>
+        </main>
+        <script src="clipboard.min.js"></script>
+
+        <script src="copy.js"></script>
 
 </html>
