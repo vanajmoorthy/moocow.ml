@@ -201,11 +201,10 @@ footer p {
 	}
 }
 
-
 /* Link placeholder to copy from */
 #link {
 	opacity: none;
 	font-size: 1px;
-	margin: 0,
+	margin: 0;
 	padding: 0;
 }
