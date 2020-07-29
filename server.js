@@ -62,7 +62,6 @@ function isEmpty(str) {
 app.post("/shorten", createAccountLimiter, async (req, res) => {
 	const secret_key = process.env.SECRET_KEY;
 	const token = req.body["g-recaptcha-response"];
-	console.log(token);
 	const url = `https://www.google.com/recaptcha/api/siteverify?secret=${secret_key}&response=${token}`;
 
 	const data = {
