@@ -9,7 +9,6 @@
         <link rel="stylesheet" href="https://use.typekit.net/jdq7cig.css">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.1/css/all.css" integrity="sha384-xxzQGERXS00kBmZW/6qxqJPyxW3UR0BPsL4c8ILaIWXva5kFi7TxkIIaMiKtqV1Q" crossorigin="anonymous">
 
-        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     </head>
 
     <body>
@@ -33,6 +32,7 @@
                             <%}%>
                         </div>
 
+                        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
                         <div class="g-recaptcha" data-sitekey="6LfTw7cZAAAAAJc8y0lPCEdIbM72Pf7CWpt3ziPf"></div>
 
                         <div class="button">
@@ -44,7 +44,7 @@
                 <% if (hasUrlBeenShortened && !doErrorsExist) {%>
                 <div class="output" id="output">
                     <h1><a href=<%= shortenedURL %>><%= shortened %></a><i id="copy"
-                                                                                        class="far fa-copy" data-clipboard-target="#link"></i></h1>
+                                                                           class="far fa-copy" data-clipboard-target="#link"></i></h1>
                 </div>
 
                 <!-- Link placeholder to copy from -->
