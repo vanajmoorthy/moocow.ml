@@ -157,7 +157,7 @@ h1 a {
 
 .button {
 	display: flex;
-	margin-top: 20px;
+	/* margin-top: 20px; */
 }
 
 button {
@@ -207,4 +207,13 @@ footer p {
 	font-size: 1px;
 	margin: 0;
 	padding: 0;
+}
+
+.captcha-container {
+	padding: 40px;
+	display: flex;
+}
+
+.g-recaptcha {
+	margin: auto;
 }

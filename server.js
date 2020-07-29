@@ -37,13 +37,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(favicon(__dirname + "/public/favicon.ico"));
 app.use(express.static(__dirname + "/public"));
 
-// Default get route for ejs template
 app.get("/", (req, res) => {
-	if (req.headers["cf-connecting-ip"] === "3.7.74.1") {
-		res.send("fuckoff");
-		console.log("deflected");
-		return;
-	}
 	let hasUrlBeenShortened = false;
 	let doErrorsExist = false;
 	let errors = "";
@@ -64,19 +58,10 @@ function isEmpty(str) {
 
 // Post to actually shorten url
 
-// TO-DO: Remove manual IP deflection and secret param.
-// Remove secret from post route, short.js and view!!!! (after captcha)
+// TO-DO: Refator
 app.post("/shorten", createAccountLimiter, async (req, res) => {
-	console.log(req.headers["cf-connecting-ip"]);
-
-	if (req.headers["cf-connecting-ip"] === "3.7.74.1") {
-		res.send("fuckoff");
-		console.log("deflected");
-		return;
-	}
-
 	const secret_key = process.env.SECRET_KEY;
-	const token = req.body.token;
+	const token = req.body["g-recaptcha-response"];
 	console.log(token);
 	const url = `https://www.google.com/recaptcha/api/siteverify?secret=${secret_key}&response=${token}`;
 
@@ -91,7 +76,9 @@ app.post("/shorten", createAccountLimiter, async (req, res) => {
 			body: JSON.stringify(data),
 		});
 
-		if (response.sucess) {
+		const responseJSON = await response.json();
+
+		if (responseJSON.success) {
 			let doErrorsExist = false;
 			let errors = "";
 
@@ -140,25 +127,32 @@ app.post("/shorten", createAccountLimiter, async (req, res) => {
 				shortenedURL,
 				shortened,
 			});
+			console.log("sent");
 		} else {
-			res.status(500).send;
+			let doErrorsExist = true;
+			let errors = "Captcha Failed!";
+
+			let hasUrlBeenShortened = false;
+			let shortenedURL = ``;
+			let shortened = ``;
+			res.render("index", {
+				doErrorsExist,
+				errors,
+				hasUrlBeenShortened,
+				shortenedURL,
+				shortened,
+			});
+			console.log("err");
 		}
-		console.log(response);
 	} catch (err) {
-		console.error(err + "goobloo");
+		console.error(err);
 		return;
 	}
 });
 
-app.get("/:shortUrl", async (req, res) => {
-	if (req.headers["cf-connecting-ip"] === "3.7.74.1") {
-		res.send("fuckoff");
-		console.log("deflected");
-		return;
-	}
-
+app.get("/:slug", async (req, res) => {
 	try {
-		var shortUrl = await shortModel.findOne({ short: req.params.shortUrl });
+		var shortUrl = await shortModel.findOne({ short: req.params.slug });
 	} catch (err) {
 		console.error(err);
 	}
