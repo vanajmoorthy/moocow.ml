@@ -1,5 +1,6 @@
 html {
 	height: -webkit-fill-available;
+	height: 100%;
 }
 
 body {
@@ -8,6 +9,7 @@ body {
 	box-sizing: border-box;
 	background-color: #29263e;
 	font-family: canada-type-gibson, sans-serif;
+	height: 100%;
 	min-height: -webkit-fill-available;
 }
 
@@ -16,7 +18,7 @@ main {
 	justify-content: center;
 	align-items: center;
 	min-height: -webkit-fill-available;
-	height: calc(100vh - 4rem);
+	height: calc(100% - 4rem);
 	padding: 2rem 2rem;
 }
 
