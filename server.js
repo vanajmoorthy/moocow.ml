@@ -86,10 +86,12 @@ app.post("/shorten", createAccountLimiter, async (req, res) => {
 	};
 
 	try {
-		await fetch(url, {
+		const response = await fetch(url, {
 			method: "post",
 			body: JSON.stringify(data),
 		});
+
+		console.log(response);
 	} catch (err) {
 		console.error(err + "goobloo");
 		return;
