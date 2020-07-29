@@ -6,6 +6,7 @@ const crypto = require("crypto");
 const favicon = require("serve-favicon");
 require("dotenv").config();
 const rateLimit = require("express-rate-limit");
+const fetch = require('node-fetch');
 
 const DB_URI = process.env.DB_URI;
 
@@ -74,18 +75,18 @@ app.post("/shorten", createAccountLimiter, async (req, res) => {
         return;
     }
 
-   // const handleSend = (req, res) => {
-   //     const secret_key = process.env.SECRET_KEY;
-   //     const token = req.body.token;
-   //     const url = `https://www.google.com/recaptcha/api/siteverify?secret=${secret_key}&response=${token}`;
+    const handleSend = (req, res) => {
+        const secret_key = process.env.SECRET_KEY;
+        const token = req.body.token;
+        const url = `https://www.google.com/recaptcha/api/siteverify?secret=${secret_key}&response=${token}`;
 
-   //     fetch(url, {
-   //         method: 'post'
-   //     })
-   //         .then(response => response.json())
-   //         .then(google_response => res.json({ google_response }))
-   //         .catch(error => res.json({ error }));
-   // };
+        fetch(url, {
+            method: 'post'
+        })
+            .then(response => response.json())
+            .then(google_response => res.json({ google_response }))
+            .catch(error => res.json({ error }));
+    };
 
     let doErrorsExist = false;
     let errors = "";
