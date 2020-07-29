@@ -127,7 +127,7 @@ app.post("/shorten", createAccountLimiter, async (req, res) => {
 				shortenedURL,
 				shortened,
 			});
-			console.log("sent");
+			console.log("CAPTCHA PASSED, SUCCESS");
 		} else {
 			let doErrorsExist = true;
 			let errors = "Captcha Failed!";
@@ -142,7 +142,7 @@ app.post("/shorten", createAccountLimiter, async (req, res) => {
 				shortenedURL,
 				shortened,
 			});
-			console.log("err");
+			console.log("CAPTCHA FAILED");
 		}
 	} catch (err) {
 		console.error(err);
