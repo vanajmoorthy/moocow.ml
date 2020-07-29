@@ -143,6 +143,7 @@ form {
 	font-weight: 600;
 	color: white;
 	font-size: 1.6rem;
+	word-break: break-word;
 }
 
 h1 a:hover {
