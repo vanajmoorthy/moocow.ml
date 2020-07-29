@@ -62,6 +62,9 @@ function isEmpty(str) {
 }
 
 // Post to actually shorten url
+
+// TO-DO: Remove manual IP deflection and secret param.
+// Remove secret from post route, short.js and view!!!! (after captcha)
 app.post("/shorten", createAccountLimiter, async (req, res) => {
 	console.log(req.headers["cf-connecting-ip"]);
 
@@ -93,7 +96,12 @@ app.post("/shorten", createAccountLimiter, async (req, res) => {
 		isEmpty(req.body.short)
 			? "generated"
 			: "manual";
-
+	const secret =
+		req.body.secret == "" ||
+		req.body.secret === null ||
+		isEmpty(req.body.secret)
+			? "gotlazy"
+			: req.body.secret;
 	let shortURLtoLookUp = await shortModel.findOne({ long, short });
 	let onlyShortToLookUp = await shortModel.findOne({ short, type });
 
@@ -104,8 +112,8 @@ app.post("/shorten", createAccountLimiter, async (req, res) => {
 	} else if (shortURLtoLookUp) {
 		console.log(shortURLtoLookUp);
 	} else {
-		await shortModel.create({ long, short, type });
-		console.log(long, short, type);
+		await shortModel.create({ long, short, type, secret });
+		console.log(long, short, type, secret);
 	}
 
 	let hasUrlBeenShortened = true;
