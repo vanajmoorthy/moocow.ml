@@ -55,17 +55,11 @@ app.get("/", (req, res) => {
 
 app.get("/stats/:slug", async (req, res) => {
 	const slug = await shortModel.findOne({ short: req.params.slug });
-	let slugExists;
+	let slugExists = slug != null;
 	let clicks;
-	if (slug === null) {
-		slugExists = false;
-		clicks = null;
-	} else {
-		slugExists = true;
-		clicks = slug.clicks;
-	}
-	console.log(clicks);
+	slugExists ? (clicks = slug.clicks) : (clicks = null);
 
+	console.log(clicks);
 	res.render("stats", { slugExists, clicks });
 });
 
@@ -75,7 +69,7 @@ function isEmpty(str) {
 
 // Post to actually shorten url
 
-// TO-DO: Refator
+// TO-DO: Refactor
 app.post("/shorten", createAccountLimiter, async (req, res) => {
 	const secret_key = process.env.SECRET_KEY;
 	const token = req.body["g-recaptcha-response"];
