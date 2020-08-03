@@ -218,3 +218,16 @@ footer p {
 .g-recaptcha {
 	margin: 40px auto;
 }
+
+.number {
+	color: white;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 50vh;
+}
+
+.number h1 {
+	font-weight: 600;
+	font-size: 1.5em;
+}

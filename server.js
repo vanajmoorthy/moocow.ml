@@ -7,6 +7,7 @@ const favicon = require("serve-favicon");
 require("dotenv").config();
 const rateLimit = require("express-rate-limit");
 const fetch = require("node-fetch");
+const short = require("./models/short");
 
 const DB_URI = process.env.DB_URI;
 
@@ -50,6 +51,22 @@ app.get("/", (req, res) => {
 		shortenedURL,
 		shortened,
 	});
+});
+
+app.get("/stats/:slug", async (req, res) => {
+	const slug = await shortModel.findOne({ short: req.params.slug });
+	let slugExists;
+	let clicks;
+	if (slug === null) {
+		slugExists = false;
+		clicks = null;
+	} else {
+		slugExists = true;
+		clicks = slug.clicks;
+	}
+	console.log(clicks);
+
+	res.render("stats", { slugExists, clicks });
 });
 
 function isEmpty(str) {
