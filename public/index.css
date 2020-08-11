@@ -19,7 +19,7 @@ main {
 	align-items: center;
 	min-height: -webkit-fill-available;
 	height: calc(100% - 4rem);
-	padding: 2rem 2rem;
+	padding: 1rem 2rem;
 }
 
 .flex {
@@ -52,7 +52,8 @@ input {
 
 .error {
 	color: #ff6969;
-	margin-top: 5px;
+	margin-top: 10px;
+	margin-bottom: 0;
 }
 
 ::-webkit-input-placeholder {
@@ -87,7 +88,7 @@ label {
 }
 
 form {
-	margin-top: 50px;
+	margin-top: 20px;
 }
 
 .output {
@@ -216,7 +217,7 @@ footer p {
 }
 
 .g-recaptcha {
-	margin: 40px auto;
+	margin: 20px auto;
 }
 
 .number {
@@ -230,4 +231,19 @@ footer p {
 .number h1 {
 	font-weight: 600;
 	font-size: 1.5em;
+}
+
+.info {
+	color: white;
+	margin-bottom: 20px;
+}
+
+.info p {
+	font-size: 1rem;
+	text-align: center;
+	margin: 0;
+}
+
+.info .fas {
+	margin-right: 10px;
 }
