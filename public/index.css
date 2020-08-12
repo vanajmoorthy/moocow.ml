@@ -26,6 +26,10 @@ main {
 	text-align: center;
 }
 
+#home {
+	text-decoration: none;
+}
+
 .flex {
 	height: 100%;
 	display: flex;
