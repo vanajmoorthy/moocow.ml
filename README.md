@@ -10,3 +10,5 @@ Lol it's like, a URL shortener, that's it.
 3. Rename [`.env.example`](https://github.com/vanajmoorthy/mcow.ml/blob/master/.env.example) to `.env` and replace the marked fields with the proper credentials.
 
 ### PRs are more than welcome 👋
+
+[![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/V7V421KHZ)
