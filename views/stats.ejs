@@ -45,11 +45,17 @@
 	<body>
 		<main>
 			<div class="flex">
+				<div class="form-and-title">
+					<div class="heading">
+						<h1>mcow.ml</h1>
+						<img class="cow" src="../cow.png" alt="cow image" />
+					</div>
+				</div>
 				<div class="number">
 					<% if (slugExists) {%>
 					<h1>Number of clicks on your short URL: <%= clicks %></h1>
 					<%} else {%>
-					<h1>Sorry that short URL does not exist!</h1>
+					<h1>Sorry, that short URL does not exist!</h1>
 					<%}%>
 				</div>
 				<footer>

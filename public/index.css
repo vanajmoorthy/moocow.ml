@@ -22,6 +22,10 @@ main {
 	padding: 1rem 2rem;
 }
 
+.number h1 {
+	text-align: center;
+}
+
 .flex {
 	height: 100%;
 	display: flex;

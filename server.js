@@ -7,7 +7,6 @@ const favicon = require("serve-favicon");
 require("dotenv").config();
 const rateLimit = require("express-rate-limit");
 const fetch = require("node-fetch");
-const short = require("./models/short");
 
 const DB_URI = process.env.DB_URI;
 
