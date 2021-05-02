@@ -36,55 +36,61 @@
         <div class="flex">
 
             <div class="form-and-title">
-                    <div class="heading">
-                         <a href="/" id="home">
-                            <h1>mcow.ml</h1><img class="cow" src="cow.png" alt="cow image">
-                         </a>
-                    </div>
+                <div class="heading">
+                    <a href="/" id="home">
+                        <h1>mcow.ml</h1><img class="cow" src="cow.png" alt="cow image">
+                    </a>
+                </div>
                 <form action="/shorten" method="POST">
                     <div class="long">
-                        <label for="long">ENTER URL TO SHORTEN</label>
+                        <label for="long">ENTER URL TO SHORTEN <span class="mandatory-star">*</span></label>
                         <input required type="url" placeholder="Enter long URL" name="long" id="long">
                     </div>
                     <div class="short">
                         <label for="short">CUSTOMISE BACK HALF</label>
                         <input type="text" placeholder="mcow.ml/" name="short" id="short">
                         <% if (doErrorsExist) {%>
-                        <p class="error"><%= errors %></p>
-                        <%}%>
-                        </div>
+                            <p class="error">
+                                <%= errors %>
+                            </p>
+                            <%}%>
+                    </div>
 
-                        <div class="captcha-container">
-                            <div data-theme="dark" class="g-recaptcha" data-sitekey="6LfTw7cZAAAAAJc8y0lPCEdIbM72Pf7CWpt3ziPf"></div>
-                        </div>
-                        <div class="info">
-                                
-                            <p><i class="fas fa-info-circle"></i>You can view stats for your short url at mcow.ml/stats/shorturl</p>
-                        </div>
-                        <div class="button">
-                            <button type="submit">SHORTEN</button>
-                        </div>
-                    </form>
+                    <div class="captcha-container">
+                        <div data-theme="dark" class="g-recaptcha"
+                            data-sitekey="6LfTw7cZAAAAAJc8y0lPCEdIbM72Pf7CWpt3ziPf"></div>
+                    </div>
+                    <div class="info">
+
+                        <p><i class="fas fa-info-circle"></i>You can view stats for your short url at
+                            mcow.ml/stats/shorturl</p>
+                    </div>
+                    <div class="button">
+                        <button type="submit">SHORTEN</button>
+                    </div>
+                </form>
+            </div>
+
+            <% if (hasUrlBeenShortened && !doErrorsExist) {%>
+                <div class="output" id="output">
+                    <h1><a href=<%=shortenedURL %>><%= shortened %></a><i id="copy" class="far fa-copy"
+                            data-clipboard-target="#link"></i></h1>
                 </div>
 
-                <% if (hasUrlBeenShortened && !doErrorsExist) {%>
-                        <div class="output" id="output">
-                            <h1><a href=<%= shortenedURL %>><%= shortened %></a><i id="copy" class="far fa-copy"
-                                    data-clipboard-target="#link"></i></h1>
-                        </div>
+                <!-- Link placeholder to copy from -->
+                <p id="link">
+                    <%= shortenedURL %>
+                </p>
+                <% } %>
 
-                        <!-- Link placeholder to copy from -->
-                        <p id="link"><%= shortenedURL %></p>
-                        <% } %>
-
-                        <footer>
-                            <p>made by <a class="footer-link" href="https://vanajmoorthy.com" target="_blank">vanaj
-                                    moorthy</a>.</p>
-                            <p>code available on <a class="footer-link" href="https://github.com/vanajmoorthy/mcow.ml"
-                                    target="_blank">github</a>.
-                            </p>
-                        </footer>
-                    </div>
+                    <footer>
+                        <p>made by <a class="footer-link" href="https://vanajmoorthy.com" target="_blank">vanaj
+                                moorthy</a>.</p>
+                        <p>code available on <a class="footer-link" href="https://github.com/vanajmoorthy/mcow.ml"
+                                target="_blank">github</a>.
+                        </p>
+                    </footer>
+        </div>
     </main>
     <script src="clipboard.min.js"></script>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>

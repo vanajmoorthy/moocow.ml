@@ -188,6 +188,11 @@ button:hover {
 	cursor: pointer;
 }
 
+.mandatory-star {
+	color: red;
+	font-size: 1rem;
+}
+
 footer {
 	border-top: 2px solid #82bbcf;
 	padding-top: 10px;
