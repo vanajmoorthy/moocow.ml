@@ -13,3 +13,9 @@ Lol it's like, a URL shortener, that's it.
 ### PRs are more than welcome 👋
 
 [![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/V7V421KHZ)
+
+### **TODOS:**
+
+* add auth with passport.js to log in and view saved links;
+* add timestamp to mongo schema;
+* make sure snappy af;
