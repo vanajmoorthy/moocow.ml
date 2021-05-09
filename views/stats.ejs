@@ -1,86 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<meta name="theme-color" content="#29263e" />
-
-		<title>mcow.ml</title>
-		<meta name="title" content="mcow.ml" />
-		<meta
-			name="description"
-			content="A simple, secure, and open-source URL shortener!"
-		/>
-
-		<!-- Open Graph / Facebook -->
-		<meta property="og:type" content="website" />
-		<meta property="og:url" content="https://mcow.ml/" />
-		<meta property="og:title" content="mcow.ml" />
-		<meta
-			property="og:description"
-			content="A simple, secure, and open-source URL shortener!"
-		/>
-		<meta property="og:image" itemprop="image" content="/big-cow.jpg" />
-
-		<!-- Twitter -->
-		<meta property="twitter:card" content="summary_large_image" />
-		<meta property="twitter:url" content="https://mcow.ml/" />
-		<meta property="twitter:title" content="mcow.ml" />
-		<meta
-			property="twitter:description"
-			content="A simple, secure, and open-source URL shortener!"
-		/>
-		<meta property="twitter:image" content="/big-cow.jpg" />
-
-		<link href="/index.css" rel="stylesheet" type="text/css" />
-		<link rel="stylesheet" href="https://use.typekit.net/jdq7cig.css" />
-		<link
-			rel="stylesheet"
-			href="https://use.fontawesome.com/releases/v5.13.1/css/all.css"
-			integrity="sha384-xxzQGERXS00kBmZW/6qxqJPyxW3UR0BPsL4c8ILaIWXva5kFi7TxkIIaMiKtqV1Q"
-			crossorigin="anonymous"
-		/>
-	</head>
-
-	<body>
-		<main>
-			<div class="flex">
-				<div class="form-and-title">
-					<div class="heading">
-						<a href="/" id="home">
-							<h1>mcow.ml</h1>
-							<img class="cow" src="../cow.png" alt="cow image" />
-						</a>
-					</div>
-				</div>
-				<div class="number">
-					<% if (slugExists) {%>
-					<h1>Number of clicks on your short URL: <%= clicks %></h1>
-					<%} else {%>
+<main>
+	<div class="flex">
+		<div class="form-and-title">
+			<div class="heading">
+				<a href="/" id="home">
+					<h1>mcow.ml</h1>
+					<img class="cow" src="../cow.png" alt="cow image" />
+				</a>
+			</div>
+		</div>
+		<div class="number">
+			<% if (slugExists) {%>
+				<h1>Number of clicks on your short URL: <%= clicks %>
+				</h1>
+				<%} else {%>
 					<h1>Sorry, that short URL does not exist!</h1>
 					<%}%>
-				</div>
-				<footer>
-					<p>
-						made by
-						<a
-							class="footer-link"
-							href="https://vanajmoorthy.com"
-							target="_blank"
-							>vanaj moorthy</a
-						>.
-					</p>
-					<p>
-						code available on
-						<a
-							class="footer-link"
-							href="https://github.com/vanajmoorthy/mcow.ml"
-							target="_blank"
-							>github</a
-						>.
-					</p>
-				</footer>
-			</div>
-		</main>
-	</body>
-</html>
+		</div>
+
+	</div>
+</main>

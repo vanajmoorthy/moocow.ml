@@ -9,6 +9,7 @@ const favicon = require("serve-favicon");
 require("dotenv").config();
 const rateLimit = require("express-rate-limit");
 const fetch = require("node-fetch");
+const expressLayouts = require("express-ejs-layouts");
 
 const DB_URI = process.env.DB_URI;
 
@@ -34,7 +35,9 @@ const createAccountLimiter = rateLimit({
 });
 
 // Make sure view engine uses ejs
+app.use(expressLayouts);
 app.set("view engine", "ejs");
+
 app.use(express.urlencoded({ extended: false }));
 app.use(favicon(__dirname + "/public/favicon.ico"));
 app.use(express.static(__dirname + "/public"));
