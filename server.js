@@ -33,8 +33,9 @@ const createAccountLimiter = rateLimit({
 	message: "Too many requests from this IP, please try again after a minute",
 });
 
-// Make sure view engine uses ejs
+// Make sure view engine uses ejs-layouts
 app.set("view engine", "ejs");
+app.set("views", "./views");
 app.use(express.urlencoded({ extended: false }));
 app.use(favicon(__dirname + "/public/favicon.ico"));
 app.use(express.static(__dirname + "/public"));
@@ -168,7 +169,7 @@ app.get("/:slug", async (req, res) => {
 		console.error(err);
 	}
 
-	if (shortUrl == null) return res.sendStatus(404);
+	if (shortUrl == null) return res.render("404");
 
 	shortUrl.clicks++;
 	shortUrl.save();
