@@ -36,6 +36,7 @@ const createAccountLimiter = rateLimit({
 // Make sure view engine uses ejs-layouts
 app.set("view engine", "ejs");
 app.set("views", "./views");
+
 app.use(express.urlencoded({ extended: false }));
 app.use(favicon(__dirname + "/public/favicon.ico"));
 app.use(express.static(__dirname + "/public"));
@@ -65,12 +66,7 @@ app.get("/stats/:slug", async (req, res) => {
 	res.render("stats", { slugExists, clicks });
 });
 
-function isEmpty(str) {
-	return !str.trim().length;
-}
-
 // Post to actually shorten url
-
 // TO-DO: Refactor
 app.post("/shorten", createAccountLimiter, async (req, res) => {
 	const secret_key = process.env.SECRET_KEY;
@@ -182,3 +178,7 @@ app.get("/:slug", async (req, res) => {
 // Set PORT for production and local
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, console.log(`Server started on port ${PORT}`));
+
+const isEmpty = (str) => {
+	return !str.trim().length;
+};
