@@ -13,30 +13,30 @@ const fetch = require("node-fetch");
 const DB_URI = process.env.DB_URI;
 
 mongoose
-    .connect(DB_URI, {
-      useNewUrlParser : true,
-      useUnifiedTopology : true,
-    })
-    .catch((error) => console.error(error));
+  .connect(DB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .catch((error) => console.error(error));
 
 const apiLimiter = rateLimit({
-  windowMs : 60 * 1000,
-  max : 10,
-  message : "Too many requests from this IP, please try again after a minute",
+  windowMs: 60 * 1000,
+  max: 10,
+  message: "Too many requests from this IP, please try again after a minute",
 });
 
 app.use("/shorten", apiLimiter);
 
 const createAccountLimiter = rateLimit({
-  windowMs : 60 * 1000,
-  max : 10,
-  message : "Too many requests from this IP, please try again after a minute",
+  windowMs: 60 * 1000,
+  max: 10,
+  message: "Too many requests from this IP, please try again after a minute",
 });
 
 // Make sure view engine uses ejs-layouts
 app.set("view engine", "ejs");
 app.set("views", "./views");
-app.use(express.urlencoded({extended : false}));
+app.use(express.urlencoded({ extended: false }));
 app.use(favicon(__dirname + "/public/favicon.ico"));
 app.use(express.static(__dirname + "/public"));
 
@@ -56,16 +56,18 @@ app.get("/", (req, res) => {
 });
 
 app.get("/stats/:slug", async (req, res) => {
-  const slug = await shortModel.findOne({short : req.params.slug});
+  const slug = await shortModel.findOne({ short: req.params.slug });
   let slugExists = slug != null;
   let clicks;
   slugExists ? (clicks = slug.clicks) : (clicks = null);
 
   console.log(clicks);
-  res.render("stats", {slugExists, clicks});
+  res.render("stats", { slugExists, clicks });
 });
 
-function isEmpty(str) { return !str.trim().length; }
+function isEmpty(str) {
+  return !str.trim().length;
+}
 
 // Post to actually shorten url
 
@@ -73,8 +75,7 @@ function isEmpty(str) { return !str.trim().length; }
 app.post("/shorten", createAccountLimiter, async (req, res) => {
   const secret_key = process.env.SECRET_KEY;
   const token = req.body["g-recaptcha-response"];
-  const url = `https://www.google.com/recaptcha/api/siteverify?secret=${
-      secret_key}&response=${token}`;
+  const url = `https://www.google.com/recaptcha/api/siteverify?secret=${secret_key}&response=${token}`;
 
   const data = {
     secret_key,
@@ -83,8 +84,8 @@ app.post("/shorten", createAccountLimiter, async (req, res) => {
 
   try {
     const response = await fetch(url, {
-      method : "post",
-      body : JSON.stringify(data),
+      method: "post",
+      body: JSON.stringify(data),
     });
 
     const responseJSON = await response.json();
@@ -95,23 +96,26 @@ app.post("/shorten", createAccountLimiter, async (req, res) => {
 
       const long = req.body.long;
       const short =
-          req.body.short === "" || req.body.short === null ||
-                  !req.body.short.match(/^[a-zA-Z]+?[^\\\/:*?"<>|\n\r]+$/) ||
-                  isEmpty(req.body.short)
-              ? crypto.createHash("sha256")
-                    .update(long)
-                    .digest("hex")
-                    .substring(0, 7)
-              : req.body.short;
+        req.body.short === "" ||
+        req.body.short === null ||
+        !req.body.short.match(/^[a-zA-Z]+?[^\\\/:*?"<>|\n\r]+$/) ||
+        isEmpty(req.body.short)
+          ? crypto
+              .createHash("sha256")
+              .update(long)
+              .digest("hex")
+              .substring(0, 7)
+          : req.body.short;
       const type =
-          req.body.short === "" || req.body.short === null ||
-                  !req.body.short.match(/^[a-zA-Z]+?[^\\\/:*?"<>|\n\r]+$/) ||
-                  isEmpty(req.body.short)
-              ? "generated"
-              : "manual";
+        req.body.short === "" ||
+        req.body.short === null ||
+        !req.body.short.match(/^[a-zA-Z]+?[^\\\/:*?"<>|\n\r]+$/) ||
+        isEmpty(req.body.short)
+          ? "generated"
+          : "manual";
 
-      let shortURLtoLookUp = await shortModel.findOne({long, short});
-      let onlyShortToLookUp = await shortModel.findOne({short, type});
+      let shortURLtoLookUp = await shortModel.findOne({ long, short });
+      let onlyShortToLookUp = await shortModel.findOne({ short, type });
 
       if (onlyShortToLookUp && onlyShortToLookUp.type == "manual") {
         doErrorsExist = true;
@@ -120,7 +124,7 @@ app.post("/shorten", createAccountLimiter, async (req, res) => {
       } else if (shortURLtoLookUp) {
         console.log(shortURLtoLookUp);
       } else {
-        await shortModel.create({long, short, type});
+        await shortModel.create({ long, short, type });
         console.log(long, short, type);
       }
 
@@ -160,13 +164,12 @@ app.post("/shorten", createAccountLimiter, async (req, res) => {
 
 app.get("/:slug", async (req, res) => {
   try {
-    var shortUrl = await shortModel.findOne({short : req.params.slug});
+    var shortUrl = await shortModel.findOne({ short: req.params.slug });
   } catch (err) {
     console.error(err);
   }
 
-  if (shortUrl == null)
-    return res.render("404");
+  if (shortUrl == null) return res.render("404");
 
   shortUrl.clicks++;
   shortUrl.save();
