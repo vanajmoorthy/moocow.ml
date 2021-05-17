@@ -38,6 +38,7 @@ main {
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
+	max-width: 450px;
 }
 
 .form {
@@ -126,9 +127,9 @@ form {
 }
 #account,
 #login {
-	height: 50px;
-	width: 50px;
-	padding: 10px;
+	height: 45px;
+	width: 45px;
+	padding: 0px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -149,6 +150,10 @@ form {
 .heading h1,
 .heading .cow {
 	display: inline;
+}
+
+.orange {
+	color: #fe9b19;
 }
 
 .cow {
