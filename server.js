@@ -169,7 +169,7 @@ app.get("/:slug", async (req, res) => {
 		console.error(err);
 	}
 
-	if (shortUrl == null) return res.sendStatus(404);
+	if (shortUrl == null) return res.render("404");
 
 	shortUrl.clicks++;
 	shortUrl.save();

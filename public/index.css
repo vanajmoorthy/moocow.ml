@@ -1,12 +1,15 @@
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+}
+
 html {
 	height: -webkit-fill-available;
 	height: 100%;
 }
 
 body {
-	padding: 0;
-	margin: 0;
-	box-sizing: border-box;
 	background-color: #29263e;
 	font-family: canada-type-gibson, sans-serif;
 	height: 100%;
@@ -19,7 +22,7 @@ main {
 	align-items: center;
 	min-height: -webkit-fill-available;
 	height: calc(100% - 4rem);
-	padding: 1rem 2rem;
+	padding: 2rem 2rem;
 }
 
 .number h1 {
@@ -118,11 +121,21 @@ form {
 	text-align: center;
 }
 
+.user-buttons {
+	display: flex;
+}
 #account,
 #login {
 	height: 50px;
 	width: 50px;
 	padding: 10px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+#login {
+	margin-left: 1rem;
 }
 
 .heading .cow {
@@ -194,6 +207,36 @@ button:hover {
 .mandatory-star {
 	color: red;
 	font-size: 1rem;
+}
+
+.not-found {
+	background-color: rgba(27, 64, 94, 1);
+	padding: 2rem 4rem;
+	max-width: 400px;
+	margin: auto;
+	border-radius: 5px;
+	color: white;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.four-oh-four {
+	font-size: 7rem;
+	color: white;
+	font-weight: 700 !important;
+	z-index: 0;
+	text-shadow: 7px 7px #82bbcf;
+}
+
+.not-found > h1 {
+	font-weight: 400;
+	text-align: center;
+}
+
+.not-found-text {
+	font-size: 1.5rem;
+	margin-top: 1rem;
 }
 
 .heading {
