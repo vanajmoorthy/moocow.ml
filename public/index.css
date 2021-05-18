@@ -31,6 +31,11 @@ main {
 
 #home {
 	text-decoration: none;
+	transition: 0.2s ease all;
+}
+
+#home:hover {
+	opacity: 0.7;
 }
 
 .flex {
@@ -116,6 +121,11 @@ form {
 .footer-link {
 	color: white;
 	text-decoration: underline;
+	transition: 0.2s ease all;
+}
+
+.footer-link:hover {
+	opacity: 0.7;
 }
 
 .output p {
@@ -252,7 +262,7 @@ button:hover {
 	text-align: center;
 	display: flex;
 	justify-content: space-between;
-	align-items: center;
+	align-items: flex-end;
 }
 
 footer {
