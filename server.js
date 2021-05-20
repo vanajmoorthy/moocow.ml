@@ -38,7 +38,7 @@ app.set("view engine", "ejs");
 app.set("views", "./views");
 
 app.use(express.urlencoded({ extended: false }));
-app.use(favicon(__dirname + "/public/favicon.ico"));
+// app.use(favicon(__dirname + "/public/favicon.ico"));
 app.use(express.static(__dirname + "/public"));
 
 app.get("/", (req, res) => {
