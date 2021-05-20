@@ -1,22 +1,22 @@
 const mongoose = require("mongoose");
 
 const User = new mongoose.Schema({
-  long : {
-    type : String,
-    required : true,
+  long: {
+    type: String,
+    required: true,
   },
-  short : {
-    type : String,
-    required : true,
+  short: {
+    type: String,
+    required: true,
   },
-  type : {
-    type : String,
-    required : true,
+  type: {
+    type: String,
+    required: true,
   },
-  clicks : {
-    type : Number,
-    required : true,
-    default : 0,
+  clicks: {
+    type: Number,
+    required: true,
+    default: 0,
   },
 });
 
