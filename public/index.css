@@ -101,6 +101,7 @@ label {
 .form-and-title h1 {
 	color: #82bbcf;
 	text-align: center;
+	text-decoration: underline;
 	font-weight: 600;
 }
 
@@ -169,6 +170,7 @@ form {
 
 .cow {
 	vertical-align: baseline;
+	height: 50px;
 }
 
 .fa-copy {
@@ -263,6 +265,15 @@ button:hover {
 	display: flex;
 	justify-content: space-between;
 	align-items: flex-end;
+}
+
+#home {
+	display: flex;
+	align-items: center;
+}
+
+#home h1 {
+	margin-left: 5px;
 }
 
 footer {
