@@ -168,9 +168,13 @@ form {
 	color: #fe9b19;
 }
 
+#home img {
+	height: 50px !important;
+	width: 50px !important;
+}
+
 .cow {
 	vertical-align: baseline;
-	height: 50px !important;
 }
 
 .fa-copy {
