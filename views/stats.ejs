@@ -40,7 +40,10 @@
 
 					<div>
 						<a href="/" id="home">
-							<img id="cow" class="cow" src="logo.png" alt="cow image">
+							<!-- Strange, express treats routes in the same tree as static assets :/. remember that -->
+							<!-- (hence the "../", since this is root/stats/:slug) -->
+							<img id="cow" class="cow" src="../logo.png" alt="cow image">
+
 							<h1>mcow.ml</h1>
 						</a>
 					</div>

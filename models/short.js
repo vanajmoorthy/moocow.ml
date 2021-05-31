@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const shortSchema = new mongoose.Schema({
+const ShortSchema = new mongoose.Schema({
 	long: {
 		type: String,
 		required: true,
@@ -18,6 +18,11 @@ const shortSchema = new mongoose.Schema({
 		required: true,
 		default: 0,
 	},
+	time: {
+		// Check this
+		type: Date,
+		required: true,
+	},
 });
 
-module.exports = mongoose.model("short", shortSchema);
+module.exports = mongoose.model("short", ShortSchema);
