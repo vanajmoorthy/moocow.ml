@@ -27,12 +27,6 @@ const apiLimiter = rateLimit({
 
 app.use("/shorten", apiLimiter);
 
-const createAccountLimiter = rateLimit({
-	windowMs: 60 * 1000,
-	max: 10,
-	message: "Too many requests from this IP, please try again after a minute",
-});
-
 // Make sure view engine uses ejs-layouts
 app.set("view engine", "ejs");
 app.set("views", "./views");
@@ -68,7 +62,7 @@ app.get("/stats/:slug", async (req, res) => {
 
 // Post to actually shorten url
 // TO-DO: Refactor
-app.post("/shorten", createAccountLimiter, async (req, res) => {
+app.post("/shorten", async (req, res) => {
 	const secret_key = process.env.SECRET_KEY;
 	const token = req.body["g-recaptcha-response"];
 	const url = `https://www.google.com/recaptcha/api/siteverify?secret=${secret_key}&response=${token}`;
@@ -120,7 +114,8 @@ app.post("/shorten", createAccountLimiter, async (req, res) => {
 			} else if (shortURLtoLookUp) {
 				console.log(shortURLtoLookUp);
 			} else {
-				await shortModel.create({ long, short, type });
+				let date = Date.now();
+				await shortModel.create({ long, short, type, date });
 				console.log(long, short, type);
 			}
 

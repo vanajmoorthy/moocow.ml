@@ -18,10 +18,9 @@ const ShortSchema = new mongoose.Schema({
 		required: true,
 		default: 0,
 	},
-	time: {
+	date: {
 		// Check this
 		type: Date,
-		required: true,
 	},
 });
 
