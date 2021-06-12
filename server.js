@@ -3,17 +3,17 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-const shortModel = require("./models/short");
 const crypto = require("crypto");
 const favicon = require("serve-favicon");
-require("dotenv").config();
 const rateLimit = require("express-rate-limit");
-const fetch = require("node-fetch");
-
-const DB_URI = process.env.DB_URI;
+const passport = require("passport");
+const localStrategy = require("passport-local").Strategy;
+const session = require("express-session");
+const bcrypt = require("bcrypt");
+const User = require("./models/User");
 
 mongoose
-	.connect(DB_URI, {
+	.connect(process.env.DB_URI, {
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
 	})
@@ -26,154 +26,65 @@ const apiLimiter = rateLimit({
 });
 
 app.use("/shorten", apiLimiter);
-
-// Make sure view engine uses ejs-layouts
-app.set("view engine", "ejs");
-app.set("views", "./views");
-
+app.use(
+	session({
+		secret: process.env.SECRET,
+		resave: false,
+		saveUninitialized: true,
+	})
+);
 app.use(express.urlencoded({ extended: false }));
-// app.use(favicon(__dirname + "/public/favicon.ico"));
 app.use(express.static(__dirname + "/public"));
+app.use(express.json());
 
-app.get("/", (req, res) => {
-	let hasUrlBeenShortened = false;
-	let doErrorsExist = false;
-	let errors = "";
-	let shortenedURL = "";
-	let shortened = "";
-	res.render("index", {
-		doErrorsExist,
-		errors,
-		hasUrlBeenShortened,
-		shortenedURL,
-		shortened,
+//Passport
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.serializeUser((user, done) => {
+	done(null, user.id);
+});
+
+passport.deserializeUser((id, done) => {
+	User.findById(id, (err, user) => {
+		done(err, user);
 	});
 });
 
-app.get("/stats/:slug", async (req, res) => {
-	const slug = await shortModel.findOne({ short: req.params.slug });
-	let slugExists = slug != null;
-	let clicks;
-	slugExists ? (clicks = slug.clicks) : (clicks = null);
+passport.use(
+	new localStrategy(
+		{ usernameField: "email", passwordField: "password" },
+		(email, password, done) => {
+			User.findOne({ email }, (err, user) => {
+				if (err) {
+					return done(err);
+				}
+				if (!user) {
+					return done(null, false, { message: "Incorrect username" });
+				}
 
-	console.log(clicks);
-	res.render("stats", { slugExists, clicks });
-});
+				bcrypt.compare(password, user.password, (err, res) => {
+					if (err) {
+						return done(err);
+					}
 
-// Post to actually shorten url
-// TO-DO: Refactor
-app.post("/shorten", async (req, res) => {
-	const secret_key = process.env.SECRET_KEY;
-	const token = req.body["g-recaptcha-response"];
-	const url = `https://www.google.com/recaptcha/api/siteverify?secret=${secret_key}&response=${token}`;
+					if (res === false) {
+						return done(null, false, {
+							message: "Incorrect password",
+						});
+					}
 
-	const data = {
-		secret_key,
-		token,
-	};
-
-	try {
-		const response = await fetch(url, {
-			method: "post",
-			body: JSON.stringify(data),
-		});
-
-		const responseJSON = await response.json();
-
-		if (responseJSON.success) {
-			let doErrorsExist = false;
-			let errors = "";
-
-			const long = req.body.long;
-			const short =
-				req.body.short === "" ||
-				req.body.short === null ||
-				!req.body.short.match(/^[a-zA-Z]+?[^\\\/:*?"<>|\n\r]+$/) ||
-				isEmpty(req.body.short)
-					? crypto
-							.createHash("sha256")
-							.update(long)
-							.digest("hex")
-							.substring(0, 7)
-					: req.body.short;
-			const type =
-				req.body.short === "" ||
-				req.body.short === null ||
-				!req.body.short.match(/^[a-zA-Z]+?[^\\\/:*?"<>|\n\r]+$/) ||
-				isEmpty(req.body.short)
-					? "generated"
-					: "manual";
-
-			let shortURLtoLookUp = await shortModel.findOne({ long, short });
-			let onlyShortToLookUp = await shortModel.findOne({ short, type });
-
-			if (onlyShortToLookUp && onlyShortToLookUp.type == "manual") {
-				doErrorsExist = true;
-				errors = "Sorry, that short URL already exists!";
-				console.log("short url exists");
-			} else if (shortURLtoLookUp) {
-				console.log(shortURLtoLookUp);
-			} else {
-				let date = Date.now();
-				await shortModel.create({ long, short, type, date });
-				console.log(long, short, type);
-			}
-
-			let hasUrlBeenShortened = true;
-			let shortenedURL = `https://www.mcow.ml/${short}`;
-			let shortened = `mcow.ml/${short}`;
-
-			res.render("index", {
-				doErrorsExist,
-				errors,
-				hasUrlBeenShortened,
-				shortenedURL,
-				shortened,
+					return done(null, user);
+				});
 			});
-			console.log("CAPTCHA PASSED, SUCCESS");
-		} else {
-			let doErrorsExist = true;
-			let errors = "Captcha Failed!";
-
-			let hasUrlBeenShortened = false;
-			let shortenedURL = ``;
-			let shortened = ``;
-			res.render("index", {
-				doErrorsExist,
-				errors,
-				hasUrlBeenShortened,
-				shortenedURL,
-				shortened,
-			});
-			console.log("CAPTCHA FAILED");
 		}
-	} catch (err) {
-		console.error(err);
-		return;
-	}
-});
+	)
+);
 
-app.get("/:slug", async (req, res) => {
-	try {
-		var shortUrl = await shortModel.findOne({ short: req.params.slug });
-	} catch (err) {
-		console.error(err);
-	}
+app.set("view engine", "ejs");
+app.set("views", "./views");
 
-	if (shortUrl == null) return res.render("404");
+require("./routes")(app);
 
-	shortUrl.clicks++;
-	shortUrl.save();
-
-	console.log(shortUrl.clicks);
-	console.log(`Redirecting to ${shortUrl.long}`);
-	res.status(301).redirect(shortUrl.long);
-});
-
-// Set PORT for production and local
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, console.log(`Server started on port ${PORT}`));
-
-const isEmpty = (str) => {
-	return !str.trim().length;
-};
