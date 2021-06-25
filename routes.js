@@ -22,6 +22,18 @@ const isLoggedOut = (req, res, next) => {
 	res.redirect("/");
 };
 
+const isPasswordValid = (pass) => {
+	if (pass.length < 8) {
+		return false;
+	}
+
+	if (!pass.match(/(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}/)) {
+		return false;
+	}
+
+	return true;
+};
+
 module.exports = (app) => {
 	app.get("/", (req, res) => {
 		let hasUrlBeenShortened = false;
@@ -29,51 +41,63 @@ module.exports = (app) => {
 		let errors = "";
 		let shortenedURL = "";
 		let shortened = "";
+
+		let isUserAuthenticated = req.isAuthenticated();
+
 		res.render("index", {
 			doErrorsExist,
 			errors,
 			hasUrlBeenShortened,
 			shortenedURL,
 			shortened,
+			isUserAuthenticated,
 		});
 	});
 
 	app.get("/signup", (req, res) => {
-		res.render("signup");
+		res.render("signup", { error: "" });
 	});
 
 	app.post("/signup", async (req, res) => {
 		const exists = await User.exists({ email: req.body.email });
 
-		let errors = [];
+		let error = "";
 
 		if (exists) {
-			errors.push("User exists");
-			res.redirect("/signup");
-		} else {
-			bcrypt.genSalt(10, function (err, salt) {
-				if (err) return next(err);
-				bcrypt.hash("pass", salt, function (err, hash) {
-					if (err) return next(err);
-
-					const newUser = new User({
-						email: req.body.email,
-						password: hash,
-					});
-
-					newUser.save();
-				});
-			});
+			error = "Sorry, that email address is taken.";
+			res.render("signup", { error: error });
+			return;
 		}
+
+		if (!isPasswordValid(req.body.password)) {
+			error =
+				"Please make sure your password is eight characters long, and has at least 1 number.";
+			res.render("signup", { error: error });
+			return;
+		}
+
+		bcrypt.genSalt(10, (err, salt) => {
+			if (err) return next(err);
+			bcrypt.hash(req.body.password, salt, (err, hash) => {
+				if (err) return next(err);
+
+				const newUser = new User({
+					email: req.body.email,
+					password: hash,
+				});
+
+				newUser.save();
+			});
+		});
+
 		res.redirect("/");
 	});
 
-	app.get("/profile", isLoggedIn, (req, res) => {
-		res.render("profile");
-	});
+	app.get("/profile", isLoggedIn, async (req, res) => {
+		const usersLinks = await shortModel.find({ user: req.user });
+		const userEmail = req.user.email;
 
-	app.get("/login", (req, res) => {
-		res.render("login");
+		res.render("profile", { email: userEmail, links: usersLinks });
 	});
 
 	app.post(
@@ -84,6 +108,10 @@ module.exports = (app) => {
 			fail: "/login?error=true",
 		})
 	);
+
+	app.get("/login", (req, res) => {
+		res.render("login");
+	});
 
 	app.get("/logout", (req, res) => {
 		req.logout();
@@ -188,13 +216,27 @@ module.exports = (app) => {
 					console.log(shortURLtoLookUp);
 				} else {
 					let date = Date.now();
-					await shortModel.create({ long, short, type, date });
-					console.log(long, short, type);
+					if (req.isAuthenticated()) {
+						let user = req.user.id;
+						await shortModel.create({
+							long,
+							short,
+							type,
+							date,
+							user,
+						});
+						console.log(long, short, type, date, user);
+					} else {
+						await shortModel.create({ long, short, type, date });
+						console.log(long, short, type, date);
+					}
 				}
 
 				let hasUrlBeenShortened = true;
 				let shortenedURL = `https://www.mcow.ml/${short}`;
 				let shortened = `mcow.ml/${short}`;
+
+				let isUserAuthenticated = req.isAuthenticated();
 
 				res.render("index", {
 					doErrorsExist,
@@ -202,6 +244,7 @@ module.exports = (app) => {
 					hasUrlBeenShortened,
 					shortenedURL,
 					shortened,
+					isUserAuthenticated,
 				});
 				console.log("CAPTCHA PASSED, SUCCESS");
 			} else {

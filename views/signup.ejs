@@ -51,18 +51,27 @@
                 </div>
             </div>
 
-            <div class="signup">
-                <h1>Sign up</h1>
-                <form action="/signup" method="post">
+            <div class="login">
+                <h1 class="login-title">Sign Up</h1>
+                <div>
+                    <% if (error) {%>
+                        <p class="error">
+                            <%=error%>
+                        </p>
+                        <%}%>
+
+                </div>
+                <form class="login-form" action="/signup" method="post">
                     <input type="email" name="email" id="email" placeholder="Enter email" required>
 
                     <input type="password" name="password" id="password" placeholder="Enter password" required>
-                    <input type="submit" value="Sign Up">
 
+
+
+
+                    <input class="login-button" type="submit" value="SIGN UP" class="login-button">
                 </form>
-                <p>Already a member? <a href="/login">Login</a>now!</p>
-
-
+                <p>Already a member? <a class="sign-up-link" href="/login">Log in</a> now!</p>
             </div>
 
             <footer>

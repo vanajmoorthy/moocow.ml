@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const User = require("./User").Schema;
 
 const ShortSchema = new mongoose.Schema({
 	long: {
@@ -21,6 +22,10 @@ const ShortSchema = new mongoose.Schema({
 	date: {
 		// Check this
 		type: Date,
+	},
+	user: {
+		type: mongoose.Types.ObjectId,
+		ref: "User",
 	},
 });
 
