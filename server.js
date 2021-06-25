@@ -84,6 +84,7 @@ passport.use(
 app.set("view engine", "ejs");
 app.set("views", "./views");
 
+// Comment
 require("./routes")(app);
 
 const PORT = process.env.PORT || 3000;
