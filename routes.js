@@ -1,4 +1,4 @@
-const shortModel = require("./models/Short");
+const shortModel = require("./models/short");
 const fetch = require("node-fetch");
 const passport = require("passport");
 const User = require("./models/User");
