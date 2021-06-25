@@ -8,7 +8,7 @@ const favicon = require("serve-favicon");
 const rateLimit = require("express-rate-limit");
 const passport = require("passport");
 const localStrategy = require("passport-local").Strategy;
-const session = require("express-session");
+const session = require("cookie-session");
 const bcrypt = require("bcrypt");
 const User = require("./models/User");
 
