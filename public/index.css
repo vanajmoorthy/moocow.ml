@@ -498,3 +498,9 @@ footer p {
 .error {
 	color: rgb(255, 89, 89);
 }
+
+#nothing {
+	color: white;
+	text-align: center;
+	font-weight: 600;
+}
