@@ -210,6 +210,10 @@ a {
 	word-break: break-word;
 }
 
+.output a {
+	text-decoration: underline;
+}
+
 h1 a {
 	transition: 0.3s ease all;
 	color: inherit;
