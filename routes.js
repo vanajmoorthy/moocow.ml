@@ -23,15 +23,7 @@ const isLoggedOut = (req, res, next) => {
 };
 
 const isPasswordValid = (pass) => {
-	if (pass.length <= 8) {
-		return false;
-	}
-
-	if (!pass.match(/(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}/)) {
-		return false;
-	}
-
-	return true;
+	return pass.length >= 5;
 };
 
 module.exports = (app) => {
@@ -55,7 +47,9 @@ module.exports = (app) => {
 	});
 
 	app.get("/signup", (req, res) => {
-		res.render("signup", { error: "" });
+		let error = "";
+
+		res.render("signup", { error: error });
 	});
 
 	app.post("/signup", async (req, res) => {
@@ -71,7 +65,7 @@ module.exports = (app) => {
 
 		if (!isPasswordValid(req.body.password)) {
 			error =
-				"Please make sure your password is eight characters long, and has at least 1 number.";
+				"Please make sure your password is longer than 5 characters.";
 			res.render("signup", { error: error });
 			return;
 		}
@@ -105,12 +99,14 @@ module.exports = (app) => {
 		isLoggedOut,
 		passport.authenticate("local", {
 			successRedirect: "/",
-			fail: "/login?error=true",
+			failureRedirect: "/login",
+			failureFlash: true,
 		})
 	);
 
 	app.get("/login", (req, res) => {
-		res.render("login");
+		console.log(req.flash("error"));
+		res.render("login", { error: req.flash("error") });
 	});
 
 	app.get("/logout", (req, res) => {

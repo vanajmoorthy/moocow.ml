@@ -12,7 +12,7 @@ html {
 body {
 	background-color: #29263e;
 	font-family: canada-type-gibson, sans-serif;
-	height: 100%;
+	/* height: 100%; */
 	min-height: -webkit-fill-available;
 }
 
@@ -20,8 +20,7 @@ main {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	min-height: -webkit-fill-available;
-	height: calc(100% - 4rem);
+	min-height: 100vh;
 	padding: 2rem 2rem;
 }
 
@@ -39,7 +38,7 @@ main {
 }
 
 .flex {
-	height: 100%;
+	min-height: calc(100vh - 4rem);
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
@@ -159,6 +158,12 @@ a {
 
 #login {
 	margin-left: 1rem;
+}
+
+@media screen and (max-width: 420px) {
+	#login {
+		margin-left: 5px !important;
+	}
 }
 
 .heading .cow {

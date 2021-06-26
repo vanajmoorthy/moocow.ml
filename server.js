@@ -11,6 +11,7 @@ const localStrategy = require("passport-local").Strategy;
 const session = require("cookie-session");
 const bcrypt = require("bcrypt");
 const User = require("./models/User");
+const flash = require("req-flash");
 
 mongoose
 	.connect(process.env.DB_URI, {
@@ -36,6 +37,7 @@ app.use(
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(__dirname + "/public"));
 app.use(express.json());
+app.use(flash());
 
 //Passport
 app.use(passport.initialize());
@@ -60,7 +62,9 @@ passport.use(
 					return done(err);
 				}
 				if (!user) {
-					return done(null, false, { message: "Incorrect username" });
+					return done(null, false, {
+						message: "This email is does not exist",
+					});
 				}
 
 				bcrypt.compare(password, user.password, (err, res) => {
